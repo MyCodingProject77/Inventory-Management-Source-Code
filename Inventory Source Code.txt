@@ -1,0 +1,131 @@
+
+
+
+           Add Code
+
+           Add button Code
+
+
+
+       SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-ADG77QL\SQLEXPRESS;Initial Catalog=inventorydb;Integrated Security=True");
+
+       con.Open();
+
+       var sqlQuery = "";
+
+       sqlQuery = @"INSERT INTO [inventorydb].dbo.[protab] ([ProductId],[ProductName],[Price]) 
+        
+             VALUES 
+            ('" + textBox1.Text + "','" + textBox2.Text + "','" + textBox2.Text + "')";
+
+                }
+
+
+
+        SqlCommand cnn = new SqlCommand(sqlQuery, con);
+        cnn.ExecuteNonQuery();
+        con.Close();
+        MessageBox.Show("Record Added Successfully", "Add", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        ShowData();
+
+
+
+
+        Form_Load
+
+        ShowData();
+
+
+
+
+
+
+       Update Code
+
+
+       SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-ADG77QL\SQLEXPRESS;Initial Catalog=inventorydb;Integrated Security=True");
+
+   con.Open();
+
+   var sqlQuery = "";
+
+
+   sqlQuery = @"UPDATE [protab] SET [ProductName] = '" + textBox2.Text + "' ,[Price] = '" + textBox3.Text + "' WHERE [ProductId] = '" + textBox1.Text + "'";
+
+   SqlCommand cnn = new SqlCommand(sqlQuery, con);
+
+   cnn.ExecuteNonQuery();
+   con.Close();
+   MessageBox.Show("Record Updated Successfully", "Update", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+
+
+
+         Delete Code
+
+
+        SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-ADG77QL\SQLEXPRESS;Initial Catalog=inventorydb;Integrated Security=True");
+
+     con.Open();
+
+     var sqlQuery = "";
+
+     sqlQuery = @"DELETE FROM [protab] WHERE [ProductId] = '" + textBox1.Text + "'";
+
+     SqlCommand cnn = new SqlCommand(sqlQuery, con);
+
+     cnn.ExecuteNonQuery();
+
+     con.Close();
+
+     MessageBox.Show("Record Deleted Successfully...!");
+
+     ShowData();
+
+
+
+        
+
+
+        public void ShowData()
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-ADG77QL\SQLEXPRESS;Initial Catalog=inventorydb;Integrated Security=True");
+            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM [inventorydb].dbo.[protab]", con);
+            DataTable table = new DataTable();
+            da.Fill(table);
+            dataGridView1.Rows.Clear();
+
+            foreach (DataRow item in table.Rows)
+            {
+                int n = dataGridView1.Rows.Add();
+                dataGridView1.Rows[n].Cells["tid"].Value = item["ProductId"].ToString();
+                dataGridView1.Rows[n].Cells["tname"].Value = item["ProductName"].ToString();
+                dataGridView1.Rows[n].Cells["tprice"].Value = item["Price"].ToString();
+                
+
+                
+
+            }
+
+
+        if (dataGridView1.Rows.Count > 0)
+                
+            {
+                
+                label5.Text = dataGridView1.Rows.Count.ToString();
+                label6.Text = dataGridView1.Rows.Count.ToString();
+                float totQty = 0;
+                for (int i = 0; i < dataGridView1.Rows.Count; ++i)
+                {
+                    totQty += float.Parse(dataGridView1.Rows[i].Cells["cquantity"].Value.ToString());
+                    label6.Text = totQty.ToString();
+                }
+            }
+            else
+            {
+                label5.Text = "0";
+                label6.Text = "0";
+            }
+
+
+
